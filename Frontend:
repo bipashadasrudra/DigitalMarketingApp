@@ -1,0 +1,41 @@
+// App.js (React Frontend)
+
+import React, { useState } from 'react';
+import axios from 'axios';
+
+function App() {
+    const [userData, setUserData] = useState({});
+    const [marketingSuggestions, setMarketingSuggestions] = useState([]);
+
+    const handleFormSubmit = async () => {
+        try {
+            // Send user data to the backend for marketing suggestions
+            const response = await axios.post('/api/marketing-suggestions', userData);
+            setMarketingSuggestions(response.data);
+        } catch (error) {
+            console.error('Error fetching marketing suggestions:', error);
+        }
+    };
+
+    return (
+        <div className="App">
+            <h1>Digital Marketing App</h1>
+            <form>
+                {/* Add form fields for user input */}
+                <button type="button" onClick={handleFormSubmit}>Get Marketing Suggestions</button>
+            </form>
+
+            {/* Display marketing suggestions */}
+            <div>
+                <h2>Marketing Suggestions</h2>
+                <ul>
+                    {marketingSuggestions.map((suggestion, index) => (
+                        <li key={index}>{suggestion}</li>
+                    ))}
+                </ul>
+            </div>
+        </div>
+    );
+}
+
+export default App;
